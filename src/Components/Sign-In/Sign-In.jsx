@@ -9,19 +9,12 @@ const SignIn = () => {
 
 	const handleSubmit = (e) => {
 		e.preventDefault();
-
-		setEmail('');
-		setPassword('');
 	};
 
-	const handleChange = (e) => {
-		const { value, name } = e.target;
-		console.log(value);
-		console.log(name);
-		setEmail({ [name]: value });
-		setPassword({ [name]: value });
+	const handleChange = (evt) => {
+		const { value, name } = evt.target;
+		name === 'email' ? setEmail(value) : setPassword(value);
 	};
-
 	return (
 		<div className="sign-in">
 			<h2>I already have an account</h2>
