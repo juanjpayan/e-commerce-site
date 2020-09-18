@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { signInWithGoogle } from '../../Firebase/Firebase.utils';
+import { auth, signInWithGoogle } from '../../Firebase/Firebase.utils';
 import CustomButton from '../Custom-Button/Custom-Button';
 import FormInput from '../Form-Input/Form-Input';
 
@@ -9,12 +9,20 @@ const SignIn = () => {
 	const [ email, setEmail ] = useState('');
 	const [ password, setPassword ] = useState('');
 
-	const handleSubmit = (e) => {
+	const handleSubmit = async (e) => {
 		e.preventDefault();
+
+		try {
+			await auth.signInWithEmailAndPassword(email, password);
+			setPassword();
+			setEmail();
+		} catch (error) {
+			console.log(error);
+		}
 	};
 
-	const handleChange = (evt) => {
-		const { value, name } = evt.target;
+	const handleChange = (e) => {
+		const { value, name } = e.target;
 		name === 'email' ? setEmail(value) : setPassword(value);
 	};
 	return (
