@@ -6,6 +6,8 @@ import Header from './Components/Header/Header';
 import Homepage from './Pages/Homepage/homepage.component';
 import ShopPage from './Pages/Shop/shop.component';
 import signInAndSignUp from './Pages/SignIn-SignUp/signIn- signUp';
+import { connect } from 'react-redux';
+import { setCurrentUser } from './Redux/User/UserAction';
 
 function App() {
 	const [ currentUser, setCurrentUser ] = useState(null);
@@ -17,14 +19,12 @@ function App() {
 
 				userRef.onSnapshot(snapShot => {
 					setCurrentUser({
-						currentUser: {
 							id: snapShot.id,
 							...snapShot.data()
-						}
 					})
 				})
 			} else {
-				setCurrentUser({currentUser: userAuth})
+				setCurrentUser({userAuth})
 			}
 		});
 
@@ -34,7 +34,7 @@ function App() {
 	}, []);
 	return (
 		<>
-			<Header currentUser={currentUser} />
+			<Header/>
 			<Switch>
 				<Route exact path="/" component={Homepage} />
 				<Route path="/shop" component={ShopPage} />
@@ -44,4 +44,8 @@ function App() {
 	);
 }
 
-export default App;
+const mapDispatchToProps = dispatch => ({
+	setCurrentUser: user => dispatch(setCurrentUser(user))
+})
+
+export default connect(null, mapDispatchToProps)(App);
