@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Route, Switch } from 'react-router-dom';
+import { Redirect, Route, Switch } from 'react-router-dom';
 import { auth, createUserProfileDocument } from './Firebase/Firebase.utils';
 import './App.css';
 import Header from './Components/Header/Header';
@@ -38,14 +38,18 @@ function App() {
 			<Switch>
 				<Route exact path="/" component={Homepage} />
 				<Route path="/shop" component={ShopPage} />
-				<Route path="/signin" component={signInAndSignUp} />
+				<Route exact path="/signin" render={() => currentUser ? (<Redirect to='/' />) : (<signInAndSignUp />)} />
 			</Switch>
 		</>
 	);
 }
 
+const mapStateToProps = ({user}) => ({
+	currentUser: user.currentUser
+})
+
 const mapDispatchToProps = dispatch => ({
 	setCurrentUser: user => dispatch(setCurrentUser(user))
 })
 
-export default connect(null, mapDispatchToProps)(App);
+export default connect(mapStateToProps, mapDispatchToProps)(App);
