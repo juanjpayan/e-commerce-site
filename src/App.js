@@ -8,6 +8,8 @@ import ShopPage from './Pages/Shop/shop.component';
 import signInAndSignUp from './Pages/SignIn-SignUp/signIn- signUp';
 import { connect } from 'react-redux';
 import { setCurrentUser } from './Redux/User/UserAction';
+import { createStructuredSelector } from 'reselect';
+import { selectCurrentUser } from './Redux/User/UserSelector';
 
 function App() {
 	const [ currentUser, setCurrentUser ] = useState(null);
@@ -44,8 +46,8 @@ function App() {
 	);
 }
 
-const mapStateToProps = ({user}) => ({
-	currentUser: user.currentUser
+const mapStateToProps = createStructuredSelector({
+	currentUser: selectCurrentUser
 })
 
 const mapDispatchToProps = dispatch => ({
